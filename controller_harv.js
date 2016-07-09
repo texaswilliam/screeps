@@ -1,3 +1,5 @@
+require('ext_Creep');
+
 if (!Memory.harv) { Memory.harv = {}; }
 if (!Memory.harv.numCreeps) { Memory.harv.numCreeps = 5; }
 
@@ -65,7 +67,8 @@ module.exports = {
                 }
                 
                 if (status == ERR_NOT_IN_RANGE) { creep.moveTo(target); }
-                else if (status != OK) { delete creep.memory.targetID; }
+                else if (status == OK) { creep.moveTowards(target); }
+                else { delete creep.memory.targetID; }
             }
         }
     }
