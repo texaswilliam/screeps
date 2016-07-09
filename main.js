@@ -1,3 +1,7 @@
 G = require('G');
 
-module.exports.loop = function() {};
+let controller_harv = require('controller_harv');
+
+module.exports.loop = function() {
+    controller_harv.run();
+};
