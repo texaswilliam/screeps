@@ -67,7 +67,16 @@ module.exports = {
                     status = creep.harvest(target);
                 }
                 
-                if (status == ERR_NOT_IN_RANGE) { creep.moveTo(target); }
+                if (status == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+
+                    let repTarget = creep.pos.findInRange(FIND_MY_STRUCTURES, 3, { filter: s => s.hits < s.hitsMax })[0];
+                    if (repTarget) { creep.repair(repTarget); }
+                    else {
+                        repTarget = creep.pos.findInRange(FIND_STRUCTURES, 3, { filter: s => s.hits < s.hitsMax })[0];
+                        if (repTarget) { creep.repair(repTarget); }
+                    }
+                }
                 else if (status == OK) { creep.moveTowards(target); }
                 else { delete creep.memory.targetID; }
             }
