@@ -13,7 +13,10 @@ function ensureMax(roomName, jsType, structureType) {
         for (let radius = 2; diff > 0; ++radius) {
             for (let i = -radius; diff > 0 && i <= radius; i += 2) {
                 for (let j = -radius; diff > 0 && j <= radius; j += 2) {
-                    let status = room.createConstructionSite(spawn.pos.x + i, spawn.pos.y + j, structureType);
+                    let x = spawn.pos.x + i;
+                    let y = spawn.pos.y + j;
+                    if (x < 0 || x > 49 || y < 0 || y > 49) { continue; }
+                    let status = room.createConstructionSite(x, y, structureType);
                     if (status == OK) { --diff; }
                 }
             }
