@@ -27,9 +27,8 @@ module.exports = {
             
             if (creep.memory.targetID) {
                 target = Game.getObjectById(creep.memory.targetID);
-                if (!target || (target instanceof StructureSpawn || target instanceof StructureExtension) &&
-                        (target.energy == target.energyCapacity || creep.carry.energy == 0) ||
-                        target instanceof StructureController && creep.carry.energy == 0 ||
+                if (!target || target instanceof Structure &&
+                        (target.energy !== undefined && target.energy == target.energyCapacity || creep.carry.energy == 0) ||
                         target instanceof Source && (target.energy == 0 || creep.carry.energy == creep.carryCapacity)) {
                     target = undefined;
                     delete creep.memory.targetID;
