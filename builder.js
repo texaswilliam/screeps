@@ -1,4 +1,11 @@
-function ensureMax(roomName, jsType, structureType) {
+/** @module builder */
+
+/**
+ * @param {string} roomName
+ * @param {function} jsType
+ * @param {string} structureType
+ */
+module.exports.ensureMaxStructureType = function(roomName, jsType, structureType) {
     let room = Game.rooms[roomName];
     if (!room || !room.controller.my) { return; }
     
@@ -22,13 +29,13 @@ function ensureMax(roomName, jsType, structureType) {
             }
         }
     }
-}
+};
 
 module.exports.run = function() {
     let myRooms = _.pick(Game.rooms, r => r.controller.my);
     
     for (let name in myRooms) {
-        ensureMax(name, StructureTower, STRUCTURE_TOWER);
-        ensureMax(name, StructureExtension, STRUCTURE_EXTENSION);
+        this.ensureMaxStructureType(name, StructureTower, STRUCTURE_TOWER);
+        this.ensureMaxStructureType(name, StructureExtension, STRUCTURE_EXTENSION);
     }
 };

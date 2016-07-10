@@ -1,3 +1,5 @@
+/** @module G */
+
 module.exports = {
     get c() { return Game.creeps; },
     get cs() { return Game.constructionSites; },

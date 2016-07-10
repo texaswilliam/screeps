@@ -1,4 +1,6 @@
-require('ext_Creep');
+/** @module controller_harv */
+
+require('./ext_Creep');
 
 if (!Memory.harv) { Memory.harv = {}; }
 if (!Memory.harv.numCreeps) { Memory.harv.numCreeps = 5; }
