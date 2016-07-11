@@ -1,6 +1,12 @@
 /** @module ext_Creep */
 
 /**
+ * @param {string[]} body
+ * @returns {number}
+ */
+Creep.getBodyCost = function(body) { return _.sum(body, part => BODYPART_COST[part]); }
+
+/**
  * @param {(RoomPosition|RoomObject)} target
  * @returns {number}
  */

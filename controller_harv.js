@@ -6,20 +6,36 @@ if (!Memory.harv) { Memory.harv = {}; }
 if (!Memory.harv.numCreeps) { Memory.harv.numCreeps = 5; }
 
 module.exports = {
-    body: [WORK, MOVE, CARRY, MOVE],
-    get bodyCost() { return _.sum(this.body, part => BODYPART_COST[part]); },
+    /**
+     * @param {string[]} body
+     * @param {number} maxEnergy
+     * @returns {string[]}
+     */
+    getMaxBody: function(maxEnergy) {
+        let carryMoveCost = Creep.getBodyCost([CARRY, MOVE]);
+        let workMoveCost = Creep.getBodyCost([WORK, MOVE]);
+        let body = [];
+        while (true) {
+            if (Creep.getBodyCost(body) + carryMoveCost > maxEnergy) { break; }
+            body = body.concat([CARRY, MOVE]);
+            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
+            body = [WORK, MOVE].concat(body);
+            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
+            body = [WORK, MOVE].concat(body);
+            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
+            body = [WORK, MOVE].concat(body);
+        }
+        return body;
+    },
     run: function() {
         let creeps = _.pick(Game.creeps, c => c.memory.role == 'HARV');
         
         if (_.size(creeps) < Memory.harv.numCreeps) {
-            let spawns = _.filter(Game.spawns, s => s.room.energyAvailable > this.bodyCost && s.room.energyCapacityAvailable - s.room.energyAvailable < this.bodyCost);
-            if (_.some(spawns)) {
-                let spawn = _.max(spawns, 'room.energyAvailable');
-                let body = [];
-                let bodyMult = Math.floor(spawn.room.energyAvailable / this.bodyCost);
-                for (let i = 0; i < bodyMult; ++i) { body = body.concat(this.body); }
-                spawn.createCreep(body, undefined, { role: 'HARV' });
-            }
+            let maxEnergyCap = _(Game.spawns).map(s => s.room.energyCapacityAvailable).max();
+            let maxBody = this.getMaxBody(maxEnergyCap);
+            let spawn = _.find(Game.spawns, s => s.room.energyAvailable >= Creep.getBodyCost(maxBody));
+
+            if (spawn) { spawn.createCreep(maxBody, undefined, { role: 'HARV' });  }
         }
         
         for (let name in creeps) {
