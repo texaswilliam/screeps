@@ -1,5 +1,3 @@
-G = require('./G');
-
 require('./ext_Creep');
 
 let builder = require('./builder');
@@ -15,3 +13,5 @@ module.exports.loop = function() {
     controller_harv.run();
     builder.run();
 };
+
+G = require('./G');
