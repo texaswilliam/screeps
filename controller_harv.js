@@ -41,7 +41,12 @@ module.exports = {
         for (let name in creeps) {
             let creep = creeps[name];
             
-            let target;
+            let target = creep.pos.findInRange(FIND_DROPPED_ENERGY, 1)[0];
+
+            if (target) {
+                creep.pickup(target);
+                target = undefined;
+            }
             
             if (creep.memory.targetID) {
                 target = Game.getObjectById(creep.memory.targetID);
