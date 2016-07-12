@@ -1,5 +1,7 @@
 /** @module controller_tower */
 
+let should = require('./should');
+
 module.exports.run = function() {
     /** @type {Object.<string, StructureTower[]>} */
     let towersByRoomName = _(Game.structures).filter(s => s instanceof StructureTower).groupBy(s => s.room.name).value();
@@ -14,10 +16,10 @@ module.exports.run = function() {
             targets = _.sortBy(room.find(FIND_MY_CREEPS, { filter: s => s.hits < s.hitsMax }), s => s.hits);
             if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().heal(targets.shift()); } }
             else if (_.some(towers)) {
-                targets = _.sortBy(room.find(FIND_MY_STRUCTURES, { filter: s => s.hits < s.hitsMax }), s => s.hits);
+                targets = _.sortBy(room.find(FIND_MY_STRUCTURES, { filter: s => should.repair(TOWER_POWER_REPAIR, s.hits, s.hitsMax) }), s => s.hits);
                 if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().repair(targets.shift()); } }
                 else if (_.some(towers)) {
-                    targets = _.sortBy(room.find(FIND_STRUCTURES, { filter: s => s.hits < s.hitsMax }), s => s.hits);
+                    targets = _.sortBy(room.find(FIND_STRUCTURES, { filter: s => should.repair(TOWER_POWER_REPAIR, s.hits, s.hitsMax) }), s => s.hits);
                     if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().repair(targets.shift()); } }
                 }
             }

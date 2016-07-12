@@ -2,6 +2,8 @@
 
 require('./ext_Creep');
 
+let should = require('./should');
+
 if (!Memory.harv) { Memory.harv = {}; }
 if (!Memory.harv.numCreeps) { Memory.harv.numCreeps = 5; }
 
@@ -91,13 +93,15 @@ module.exports = {
                 if (status == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, { reusePath: Memory.reusePath });
 
-                    let repPower = _.countBy(creep.body, 'type')[WORK] * REPAIR_POWER;
+                    if (!creep.room.hasTower()) {
+                        let repPower = _.countBy(creep.body, 'type')[WORK] * REPAIR_POWER;
 
-                    let repTarget = creep.pos.findInRange(FIND_MY_STRUCTURES, 3, { filter: s => s.hits <= s.hitsMax - repPower })[0];
-                    if (repTarget) { creep.repair(repTarget); }
-                    else {
-                        repTarget = creep.pos.findInRange(FIND_STRUCTURES, 3, { filter: s => s.hits <= s.hitsMax - repPower })[0];
+                        let repTarget = creep.pos.findInRange(FIND_MY_STRUCTURES, 3, { filter: s => should.repair(repPower, s.hits, s.hitsMax) })[0];
                         if (repTarget) { creep.repair(repTarget); }
+                        else {
+                            repTarget = creep.pos.findInRange(FIND_STRUCTURES, 3, { filter: s => should.repair(repPower, s.hits, s.hitsMax) })[0];
+                            if (repTarget) { creep.repair(repTarget); }
+                        }
                     }
                 }
                 else if (status == OK) { creep.moveTowards(target); }
