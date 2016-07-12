@@ -72,7 +72,7 @@ module.exports = {
             if (target) {
                 let status;
                 
-                if (target instanceof StructureSpawn || target instanceof StructureExtension) {
+                if (target instanceof Structure && target.energy !== undefined) {
                     status = creep.transfer(target, RESOURCE_ENERGY);
                 }
                 else if (target instanceof ConstructionSite) {
