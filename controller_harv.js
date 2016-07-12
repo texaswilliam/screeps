@@ -14,16 +14,14 @@ module.exports = {
     getMaxBody: function(maxEnergy) {
         let carryMoveCost = Creep.getBodyCost([CARRY, MOVE]);
         let workMoveCost = Creep.getBodyCost([WORK, MOVE]);
-        let body = [];
+        let body = [WORK, MOVE, CARRY, MOVE];
         while (true) {
+            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
+            body = [WORK, MOVE].concat(body);
+            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
+            body = [WORK, MOVE].concat(body);
             if (Creep.getBodyCost(body) + carryMoveCost > maxEnergy) { break; }
             body = body.concat([CARRY, MOVE]);
-            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
-            body = [WORK, MOVE].concat(body);
-            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
-            body = [WORK, MOVE].concat(body);
-            if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
-            body = [WORK, MOVE].concat(body);
         }
         return body;
     },
