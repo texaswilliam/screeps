@@ -17,3 +17,4 @@ module.exports.loop = function() {
 };
 
 G = require('./G');
+util = require('./util');
