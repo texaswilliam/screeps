@@ -22,6 +22,10 @@ module.exports.ensureMaxStructureType = function(roomName, jsType, structureType
                 for (let j = -radius; diff > 0 && j <= radius; j += 2) {
                     let x = spawn.pos.x + i;
                     let y = spawn.pos.y + j;
+                    if (x > spawn.pos.x - 2 && x < spawn.pos.x + 2 &&
+                            y > spawn.pos.y - 2 && y < spawn.pos.y + 2) {
+                                continue;
+                    }
                     if (x < 0 || x > 49 || y < 0 || y > 49) { continue; }
                     let status = room.createConstructionSite(x, y, structureType);
                     if (status == OK) { --diff; }
