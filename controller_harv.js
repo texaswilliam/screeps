@@ -57,11 +57,14 @@ module.exports = {
             
             if (!target) {
                 if (creep.carry.energy > 0) {
-                    target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: s => s.energy < s.energyCapacity });
+                    target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: s => s.energy < s.energyCapacity && !(s instanceof StructureTower) });
                     
                     if (!target) {
-                        target = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
-                        if (!target) { target = creep.room.controller; }
+                        target = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, { filter: s => s.energy < s.energyCapacity && s instanceof StructureTower });
+                        if (!target) {
+                            target = creep.pos.findClosestByPath(FIND_MY_CONSTRUCTION_SITES);
+                            if (!target) { target = creep.room.controller; }
+                        }
                     }
                 }
                 else { target = creep.pos.findClosestByPath(FIND_SOURCES, { filter: s => s.energy > 0 }); }
