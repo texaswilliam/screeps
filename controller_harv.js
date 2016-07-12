@@ -91,7 +91,7 @@ module.exports = {
                 if (status == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, { reusePath: Memory.reusePath });
 
-                    let repPower = _.countBy(creep.body)[WORK] * REPAIR_POWER;
+                    let repPower = _.countBy(creep.body, 'type')[WORK] * REPAIR_POWER;
 
                     let repTarget = creep.pos.findInRange(FIND_MY_STRUCTURES, 3, { filter: s => s.hits <= s.hitsMax - repPower })[0];
                     if (repTarget) { creep.repair(repTarget); }
