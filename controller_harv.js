@@ -44,8 +44,12 @@ module.exports = {
             if (creep.memory.targetID) {
                 target = Game.getObjectById(creep.memory.targetID);
                 if (!target || target instanceof Structure &&
-                        (target.energy !== undefined && target.energy == target.energyCapacity || creep.carry.energy == 0) ||
-                        target instanceof Source && (target.energy == 0 || creep.carry.energy == creep.carryCapacity)) {
+                        (target.energy !== undefined && target.energy == target.energyCapacity || creep.carry.energy == 0)) {
+                    target = undefined;
+                    delete creep.memory.targetID;
+                }
+                else if (target && target instanceof Source && (target.energy == 0 || creep.carry.energy == creep.carryCapacity)) {
+                    creep.moveAwayFrom(target);
                     target = undefined;
                     delete creep.memory.targetID;
                 }
