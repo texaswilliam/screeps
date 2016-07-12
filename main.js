@@ -1,4 +1,5 @@
 require('./ext_Creep');
+require('./ext_Room');
 
 let builder = require('./builder');
 let controller_def = require('./controller_def');
