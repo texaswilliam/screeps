@@ -1,5 +1,11 @@
 /** @module G */
 
+/**
+ * @param {string} id
+ * @returns {(ConstructionSite|Creep|Mineral|Nuke|Resource|Source|Structure)}
+ */
+module.exports.byId = function(id) { return Game.getObjectById(id); }
+
 /**@type {Object.<string, Creep>} */
 Object.defineProperty(module.exports, 'c', { get() { return Game.creeps; } });
 
