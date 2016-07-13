@@ -1,9 +1,26 @@
 /** @module should */
 
+module.exports.creep = {};
+
 /**
- * @param {number} repPower
- * @param {number} hits
- * @param {number} hitsMax
+ * @param {Creep} source
+ * @param {Structure} target
  * @returns {boolean}
  */
-module.exports.repair = function(repPower, hits, hitsMax) { return (hits <= hitsMax - repPower || hits < hitsMax / 2) && hits < 10000; };
+module.exports.creep.repair = function(source, target) {
+    let repPower = source.body.filter(p => p.type === WORK).length * REPAIR_POWER;
+    let hitsLimit = target instanceof StructureRoad ? 10000 : 20000;
+    return (target.hits <= target.hitsMax - repPower || target.hits < target.hitsMax / 2) && target.hits < hitsLimit;
+};
+
+module.exports.tower = {};
+
+/**
+ * @param {Structure} target
+ * @returns {boolean}
+ */
+module.exports.tower.repair = function(target) {
+    let repPower = TOWER_POWER_REPAIR;
+    let hitsLimit = target instanceof StructureRoad ? 10000 : 20000;
+    return (target.hits <= target.hitsMax - repPower || target.hits < target.hitsMax / 2) && target.hits < hitsLimit;
+};

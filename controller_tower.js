@@ -14,14 +14,18 @@ module.exports.run = function() {
         let targets = _.sortBy(room.find(FIND_HOSTILE_CREEPS), c => c.hits);
         if (_.some(targets)) { _.forEach(towers, t => t.attack(targets[0])); }
         else {
-            targets = _.sortBy(room.find(FIND_MY_CREEPS, { filter: s => s.hits < s.hitsMax }), s => s.hits);
-            if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().heal(targets.shift()); } }
-            else if (_.some(towers)) {
-                targets = _.sortBy(room.find(FIND_MY_STRUCTURES, { filter: s => should.repair(TOWER_POWER_REPAIR, s.hits, s.hitsMax) }), s => s.hits);
-                if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().repair(targets.shift()); } }
+            let targets = _.sortBy(room.find(FIND_HOSTILE_CONSTRUCTION_SITES), c => c.progress);
+            if (_.some(targets)) { _.forEach(towers, t => t.attack(targets[0])); }
+            else {
+                targets = _.sortBy(room.find(FIND_MY_CREEPS, { filter: s => s.hits < s.hitsMax }), s => s.hits);
+                if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().heal(targets.shift()); } }
                 else if (_.some(towers)) {
-                    targets = _.sortBy(room.find(FIND_STRUCTURES, { filter: s => should.repair(TOWER_POWER_REPAIR, s.hits, s.hitsMax) }), s => s.hits);
+                    targets = _.sortBy(room.find(FIND_MY_STRUCTURES, { filter: s => should.tower.repair(s) }), s => s.hits);
                     if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().repair(targets.shift()); } }
+                    else if (_.some(towers)) {
+                        targets = _.sortBy(room.find(FIND_STRUCTURES, { filter: s => should.tower.repair(s) }), s => s.hits);
+                        if (_.some(targets)) { while (_.some(towers) && _.some(targets)) { towers.shift().repair(targets.shift()); } }
+                    }
                 }
             }
         }

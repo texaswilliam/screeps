@@ -102,10 +102,10 @@ module.exports.run = function() {
                 if (!creep.room.hasTower()) {
                     let repPower = _.countBy(creep.body, 'type')[WORK] * REPAIR_POWER;
 
-                    let repTarget = creep.pos.findInRange(FIND_MY_STRUCTURES, 3, { filter: s => should.repair(repPower, s.hits, s.hitsMax) })[0];
+                    let repTarget = creep.pos.findInRange(FIND_MY_STRUCTURES, 3, { filter: s => should.creep.repair(creep, s) })[0];
                     if (repTarget) { creep.repair(repTarget); }
                     else {
-                        repTarget = creep.pos.findInRange(FIND_STRUCTURES, 3, { filter: s => should.repair(repPower, s.hits, s.hitsMax) })[0];
+                        repTarget = creep.pos.findInRange(FIND_STRUCTURES, 3, { filter: s => should.creep.repair(creep, s) })[0];
                         if (repTarget) { creep.repair(repTarget); }
                     }
                 }
