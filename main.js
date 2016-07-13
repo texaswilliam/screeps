@@ -1,5 +1,6 @@
 /** @module main */
 
+require('./ext_Array');
 require('./ext_Creep');
 require('./ext_Room');
 require('./ext_StructureTower');
