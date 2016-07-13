@@ -1,7 +1,6 @@
 require('./ext_Creep');
 require('./ext_Room');
 require('./ext_StructureTower');
-require('./ext_console');
 
 let builder = require('./builder');
 let controller_def = require('./controller_def');
