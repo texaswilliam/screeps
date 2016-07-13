@@ -1,5 +1,6 @@
 /** @module controller_tower */
 
+let _ = require('lodash');
 let should = require('./should');
 
 module.exports.run = function() {

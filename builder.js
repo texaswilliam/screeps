@@ -1,5 +1,7 @@
 /** @module builder */
 
+let _ = require('lodash');
+
 /**
  * @param {string} roomName
  * @param {function} jsType

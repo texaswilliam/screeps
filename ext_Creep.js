@@ -3,13 +3,13 @@
 let _ = require('lodash');
 
 /**
- * @param {string[]} body
+ * @param {string[]} parts
  * @returns {number}
  */
-Creep.getBodyCost = function(body) { return _.sum(body, part => BODYPART_COST[part]); };
+Creep.getBodyCost = function(parts) { return _.sum(parts, part => BODYPART_COST[part]); };
 
 /** @returns {number} */
-Creep.prototype.getBodyCost = function() { return Creep.getBodyCost(this.body); };
+Creep.prototype.getBodyCost = function() { return Creep.getBodyCost(_.map(this.body, 'type')); };
 
 /**
  * @param {(RoomPosition|RoomObject)} target

@@ -1,4 +1,6 @@
 /** @module ext_Room */
+
+/** @returns {boolean} */
 Room.prototype.hasTower = function() {
     if (this._hasTower !== undefined) { return this._hasTower; }
     else {
