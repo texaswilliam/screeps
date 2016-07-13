@@ -2,8 +2,12 @@
 
 let _ = require('lodash');
 
-if (!Memory.def) { Memory.def = {}; }
-if (!Memory.def.numCreeps) { Memory.def.numCreeps = 1; }
+_.defaultsDeep(Memory, {
+    def: {
+        /** @type {number} */
+        numCreeps: 1
+    }
+});
 
 /**
  * @param {number} maxEnergy

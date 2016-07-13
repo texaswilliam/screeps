@@ -6,8 +6,12 @@ require('./ext_Room');
 let _ = require('lodash');
 let should = require('./should');
 
-if (!Memory.harv) { Memory.harv = {}; }
-if (!Memory.harv.numCreeps) { Memory.harv.numCreeps = 5; }
+_.defaultsDeep(Memory, {
+    harv: {
+        /** @type {number} */
+        numCreeps: 5
+    }
+});
 
 /**
  * @param {number} maxEnergy
