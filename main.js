@@ -2,6 +2,7 @@
 
 require('./ext_Array');
 require('./ext_Creep');
+require('./ext_Object');
 require('./ext_Room');
 require('./ext_StructureTower');
 
