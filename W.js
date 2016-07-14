@@ -15,9 +15,23 @@ function strRecursive(x, maxRecurse, recurse) {
     }
     if (_.isBoolean(x)) { return x ? 'true' : 'false'; }
     if (_.isFunction(x)) { return x.toString(); }
+    if (x instanceof Map) {
+        if (x.size == 0) return str + 'Map {}';
+
+        let str = 'Map {\n' + '    '.repeat(recurse + 1);
+        let [[k, v], ...rest] = x;
+        str += k + ': ' + strRecursive(v, maxRecurse, recurse + 1);
+        for (let [k, v] of rest) {
+            str += ',\n' + '    '.repeat(recurse + 1);
+            str += k + ': ' + strRecursive(v, maxRecurse, recurse + 1);
+        }
+        str += '\n' + '    '.repeat(recurse) + '}';
+        return str;
+    }
     if (_.isNumber(x)) { return String(x); }
     if (_.isNull(x)) { return 'null'; }
     if (_.isUndefined(x)) { return 'undefined'; }
+    if (x instanceof Set) { return 'Set ' + strRecursive([...x], maxRecurse, recurse); }
     if (_.isString(x)) { return '\'' + x + '\''; }
 
     if (_.isObject(x) || _.isPlainObject(x)) {
