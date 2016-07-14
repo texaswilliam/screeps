@@ -1,5 +1,7 @@
 /** @module main */
 
+let wmem = require('./WMem');
+
 require('./ext_Array');
 require('./ext_Creep');
 require('./ext_Object');
@@ -12,6 +14,8 @@ let controller_harv = require('./controller_harv');
 let controller_tower = require('./controller_tower');
 
 module.exports.loop = function() {
+    wmem.load();
+
     for (let name in Memory.creeps) { if (!Game.creeps[name]) { delete Memory.creeps[name]; } }
     
     controller_tower.run();
