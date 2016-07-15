@@ -16,15 +16,17 @@ _.defaultsDeep(Memory, {
 module.exports.getMaxBody = function(maxEnergy) {
     let attackMoveCost = Creep.getBodyCost([ATTACK, MOVE]);
     let toughMoveCost = Creep.getBodyCost([TOUGH, MOVE]);
+
+    let split = Math.floor(maxEnergy / (attackMoveCost + toughMoveCost));
+    let left = maxEnergy % (attackMoveCost + toughMoveCost);
+
+    let numTough = split;
+    let numAttack = split + Math.floor(left / attackMoveCost);
+
     let body = [];
-
-    while (true) {
-        if (Creep.getBodyCost(body) + attackMoveCost > maxEnergy) { break; }
-        body = body.concat([ATTACK, MOVE]);
-        if (Creep.getBodyCost(body) + toughMoveCost > maxEnergy) { break; }
-        body = [TOUGH, MOVE].concat(body);
-    }
-
+    for (let i = 0; i < numTough; ++i) { body.push(TOUGH); }
+    for (let i = 0; i < numAttack; ++i) { body.push(ATTACK); }
+    for (let i = 0; i < numTough + numAttack; ++i) { body.push(MOVE); }
     return body;
 };
 

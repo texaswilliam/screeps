@@ -20,15 +20,17 @@ _.defaultsDeep(Memory, {
 module.exports.getMaxBody = function(maxEnergy) {
     let carryMoveCost = Creep.getBodyCost([CARRY, MOVE]);
     let workMoveCost = Creep.getBodyCost([WORK, MOVE]);
-    let body = [WORK, MOVE, CARRY, MOVE];
-    while (true) {
-        if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
-        body = [WORK, MOVE].concat(body);
-        if (Creep.getBodyCost(body) + workMoveCost > maxEnergy) { break; }
-        body = [WORK, MOVE].concat(body);
-        if (Creep.getBodyCost(body) + carryMoveCost > maxEnergy) { break; }
-        body = body.concat([CARRY, MOVE]);
-    }
+
+    let split = Math.floor(maxEnergy / (carryMoveCost + workMoveCost));
+    let left = maxEnergy % (carryMoveCost + workMoveCost);
+
+    let numCarry = split;
+    let numWork = split + Math.floor(left / workMoveCost);
+
+    let body = [];
+    for (let i = 0; i < numWork; ++i) { body.push(WORK); }
+    for (let i = 0; i < numCarry; ++i) { body.push(CARRY); }
+    for (let i = 0; i < numCarry + numWork; ++i) { body.push(MOVE); }
     return body;
 };
 
