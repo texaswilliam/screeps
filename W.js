@@ -46,6 +46,13 @@ function strRecursive(x, maxRecurse, recurse) {
     return String(x);
 }
 
+module.exports.pos2str = function(pos) { return `${pos.roomName}X${pos.x}Y${pos.y}`; }
+module.exports.str2pos = function(str) {
+    let m = /([EW]\d{1,2}[NS]\d{1,2})X(\d{1,2})Y(\d{1,2})/.exec(str);
+    if (!m) return null;
+    return new RoomPosition(parseInt(m[2]), parseInt(m[3]), m[1]);
+}
+
 /** @param {*} x */
 module.exports.log = function(x) { console.log(this.str(x)); };
 
