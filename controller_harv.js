@@ -81,7 +81,7 @@ module.exports.run = function() {
                     }
                 }
             }
-            else { target = creep.pos.findClosestByPath(FIND_SOURCES, { filter: s => s.energy > 0 }); }
+            else { target = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE); }
 
             if (target) { creep.memory.targetID = target.id; }
         }
