@@ -64,14 +64,10 @@ module.exports.run = function() {
             creep.moveTo(target, { reusePath: 0 });
         }
         else {
-            let spawn = creep.pos.findInRange(FIND_MY_SPAWNS, 3)[0];
-            if (spawn) {
-                if (creep.pos.getRangeTo(spawn) < 2) { creep.moveAwayFrom(spawn); }
-            }
-            else {
-                spawn = _.find(Game.spawns);
-                if (spawn) { creep.moveTo(spawn); }
-            }
+            target = Game.flags.Idle;
+            if (!target) target = creep.pos.findInRange(FIND_MY_SPAWNS, 2)[0];
+            if (!target) target = _.find(Game.spawns);
+            if (target) creep.moveTo(target);
         }
     }
 };
