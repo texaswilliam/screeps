@@ -5,7 +5,7 @@ Room.prototype.findAllHostiles = function() {
     let targets = this.find(FIND_HOSTILE_CONSTRUCTION_SITES);
     targets = targets.concat(this.find(FIND_HOSTILE_CREEPS));
     targets = targets.concat(this.find(FIND_HOSTILE_SPAWNS));
-    targets = targets.concat(this.find(FIND_HOSTILE_STRUCTURES));
+    targets = targets.concat(this.find(FIND_HOSTILE_STRUCTURES, { filter: s => !(s instanceof StructureController) }));
     return targets;
 }
 
